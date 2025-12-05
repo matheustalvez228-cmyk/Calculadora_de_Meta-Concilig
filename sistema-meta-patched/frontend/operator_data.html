@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meus Dados</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/operator_data.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="title">Minhas Informações</h2>
+
+      <div id="dados"></div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+        <button class="btn-secondary" onclick="window.location.href='operator.html'">Voltar</button>
+        <button id="btnUpdateData" class="btn-info" onclick="window.location.href='operator.html?mode=update'">Atualizar</button>
+        <button id="btnRegisterAgain" class="btn-secondary" onclick="window.location.href='operator.html?mode=new'">Cadastrar novamente</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Operador</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    \n<img src="/assets/concilig.png" class="logo" alt="Concilig" />\n
+    <div class="watermark">
+      Código feito pelo Operador Matheus de Oliveira ; )
+    </div>
+    \n
+    <div class="container">
+      <h1>Área do Operador</h1>
+      <div class="form-group">
+        <label>Carteira</label><input id="opWallet" disabled />
+      </div>
+      <div class="form-group">
+        <label>Meta Mensal (R$)</label
+        ><input id="opMonthlyGoal" type="number" />
+      </div>
+      <div class="form-group">
+        <label>Valor Recebido (R$)</label
+        ><input id="opReceivedValue" type="number" />
+      </div>
+      <div class="form-group">
+        <label>Nº Renegociações</label
+        ><input id="opRenegCount" type="number" min="0" value="0" />
+      </div>
+      <div id="opRisksContainer"></div>
+      <div style="display: flex; gap: 12px; margin-top: 12px">
+        <button class="btn-info" onclick="viewMyData()">Ver meus dados</button>
+        <button id="btnOpSave">Salvar</button
+        ><button id="btnOpLogout" class="secondary">Sair</button>
+      </div>
+      <div id="opMessage" class="muted" style="margin-top: 12px"></div>
+    </div>
+    <script src="/js/operator.js"></script>
+  </body>
+</html>

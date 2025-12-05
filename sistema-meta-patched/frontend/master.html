@@ -1,0 +1,17 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Master</title><link rel="stylesheet" href="/css/style.css"></head><body>\n<img src="/assets/concilig.png" class="logo" alt="Concilig">\n<div class="watermark">Código feito pelo Operador Matheus de Oliveira ; )</div>\n
+  <div class="container">
+    <h1>Painel Master</h1>
+    <div class="form-group"><label>Carteira</label><input id="masterWallet" disabled></div>
+    <div class="form-group"><label>Ressarço Total (R$)</label><input id="masterRessarco" type="number"></div>
+    <div class="form-group"><label>Taxa (%)</label><input id="masterTax" type="number"></div>
+    <div style="display:flex;gap:8px"><button id="btnSaveWalletSettings">Salvar</button><button id="btnAutoSplit" class="secondary">Divisão Igual</button></div>
+    <h3 style="margin-top:12px">Operadores</h3>
+    <div id="masterOperatorsList" class="list"></div>
+    <h3 style="margin-top:12px">Divisão</h3>
+    <div id="masterSelection" class="list"></div>
+    <div style="margin-top:12px"><button id="btnComputeShare">Aplicar divisão</button></div>
+    <div id="masterResult" class="muted" style="margin-top:12px"></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:12px"><button id="btnMasterLogout" class="secondary">Sair</button></div>
+  </div>
+<script src="/js/master.js"></script>
+</body></html>
