@@ -30,6 +30,10 @@ app.use('/api/operator', operatorRoutes);
 const operatorsRoutes = require('./routes/operators');
 app.use('/api/operators', operatorsRoutes);
 
+// wallets routes - manage wallet settings and allocations
+const walletsRoutes = require('./routes/wallets');
+app.use('/api/wallets', walletsRoutes);
+
 // ------------------------------
 // FUNÇÕES UTILITÁRIAS (DB)
 // ------------------------------

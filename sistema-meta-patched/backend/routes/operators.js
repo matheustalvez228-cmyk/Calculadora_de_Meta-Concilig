@@ -21,14 +21,16 @@ router.post('/:id/entries', async (req, res) => {
     const id = req.params.id;
     const { monthlyGoal, receivedValue, risks } = req.body;
     const now = new Date().toLocaleString();
-    const r = await run('INSERT INTO entries(operatorId,monthlyGoal,receivedValue,timestamp) VALUES (?,?,?,?)', [id, monthlyGoal || 0, receivedValue || 0, now]);
+    // Store receivedValue as actualValue (what operator reports as faturamento)
+    // receivedValue will be recalculated later by master
+    const r = await run('INSERT INTO entries(operatorId,monthlyGoal,actualValue,receivedValue,timestamp) VALUES (?,?,?,?,?)', [id, monthlyGoal || 0, receivedValue || 0, receivedValue || 0, now]);
     const entryId = r.lastID;
     if(Array.isArray(risks) && risks.length>0) {
       const stmt = db.prepare('INSERT INTO risks(entryId,riskPremium) VALUES (?,?)');
       for(const rr of risks) stmt.run(entryId, Number(rr));
       stmt.finalize();
     }
-    const entry = await get('SELECT id, monthlyGoal, receivedValue, timestamp FROM entries WHERE id=?', [entryId]);
+    const entry = await get('SELECT id, monthlyGoal, actualValue, receivedValue, timestamp FROM entries WHERE id=?', [entryId]);
     const allRisks = await all('SELECT id, riskPremium FROM risks WHERE entryId=?', [entryId]);
     res.json({ ok: true, entry, risks: allRisks });
   } catch(err) {

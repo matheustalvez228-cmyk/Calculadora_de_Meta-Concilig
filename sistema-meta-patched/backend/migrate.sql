@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS entries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   operatorId TEXT,
   monthlyGoal REAL,
+  actualValue REAL DEFAULT 0,
   receivedValue REAL,
   timestamp TEXT
 );

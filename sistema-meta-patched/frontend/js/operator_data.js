@@ -28,15 +28,34 @@ async function loadData() {
         const u = data.user;
         const e = data.entry || {};
         const renegs = (data.risks || []);
-        const projecao = 0; // unknown here, backend may calculate
+        const realFaturamento = Number(e.realFaturamento || 0);
+        const baseValue = Number(e.baseValue || 0);
+        const riskValue = Number(e.riskValue || 0);
+        const totalValue = Number(e.receivedValue || 0);
+        const percentualAtingido = Number(e.percentualAtingido || 0);
+        const monthlyGoal = Number(e.monthlyGoal || 0);
+        
         out = `
         <p><strong>ID:</strong> ${u.id}</p>
         <p><strong>Carteira:</strong> ${u.wallet || u.carteira || ''}</p>
-        <p><strong>Meta Mensal:</strong> R$ ${Number(e.monthlyGoal||0).toFixed(2)}</p>
-        <p><strong>Valor Recebido:</strong> R$ ${Number(e.receivedValue||0).toFixed(2)}</p>
-        <p><strong>Renegociações:</strong> ${renegs.length}</p>
-        <p><strong>Projeção de Pagamento:</strong> R$ ${projecao.toFixed ? projecao.toFixed(2) : projecao}</p>
+        <p><strong>Meta Mensal:</strong> R$ ${monthlyGoal.toFixed(2)}</p>
+        <p><strong>Faturamento Realizado:</strong> R$ ${realFaturamento.toFixed(2)}</p>
+        <p><strong>% da Meta Atingida:</strong> ${percentualAtingido.toFixed(2)}%</p>
+        <hr style="margin: 15px 0;">
+        <p style="font-size: 1.2em;"><strong>VALOR TOTAL A SER RECEBIDO: R$ ${totalValue.toFixed(2)}</strong></p>
+        <ul style="margin-left: 20px; margin-top: 5px;">
+          <li><strong>Valor Base (Rateio proporcional):</strong> R$ ${baseValue.toFixed(2)}</li>
+          <li><strong>Valor Renegociações:</strong> R$ ${riskValue.toFixed(2)}</li>
+        </ul>
+        <p><strong>Renegociações Realizadas:</strong> ${renegs.length}</p>
         `;
+        if(renegs.length > 0) {
+          out += '<ul style="margin-left: 20px;">';
+          renegs.forEach((r, idx) => {
+            out += `<li>Renegociação ${idx+1}: R$ ${Number(r.riskPremium).toFixed(2)}</li>`;
+          });
+          out += '</ul>';
+        }
     } else {
         out = `
         <p><strong>ID:</strong> ${data.id}</p>
@@ -44,7 +63,6 @@ async function loadData() {
         <p><strong>Meta Mensal:</strong> R$ ${data.meta || data.monthlyGoal || ''}</p>
         <p><strong>Valor Recebido:</strong> R$ ${data.recebido || data.receivedValue || ''}</p>
         <p><strong>Renegociações:</strong> ${data.renegs || ''}</p>
-        <p><strong>Projeção de Pagamento:</strong> R$ ${data.projecao || ''}</p>
         `;
     }
 
