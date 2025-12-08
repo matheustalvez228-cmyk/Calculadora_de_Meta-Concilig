@@ -19,7 +19,7 @@ function all(sql, params=[]) {
 router.get('/:wallet', async (req, res) => {
   try {
     const wallet = req.params.wallet;
-    const w = await get('SELECT wallet, ressarco, taxa FROM wallets WHERE wallet=?', [wallet]);
+    const w = await get('SELECT wallet, bonificacao, taxa FROM wallets WHERE wallet=?', [wallet]);
     if(!w) return res.status(404).json({ error: 'Carteira não encontrada' });
     
     // get allocations from allocations table (if populated)
@@ -27,7 +27,7 @@ router.get('/:wallet', async (req, res) => {
     const allocations = {};
     allocs.forEach(a => { allocations[a.operatorId] = a.percent; });
     
-    res.json({ wallet: w.wallet, ressarco: w.ressarco, taxa: w.taxa, allocations });
+    res.json({ wallet: w.wallet, bonificacao: w.bonificacao, taxa: w.taxa, allocations });
   } catch(err) {
     console.error(err);
     res.status(500).json({ error: 'Erro interno' });
@@ -38,16 +38,16 @@ router.get('/:wallet', async (req, res) => {
 router.post('/:wallet', async (req, res) => {
   try {
     const wallet = req.params.wallet;
-    const { ressarco, taxa, allocations } = req.body;
+    const { bonificacao, taxa, allocations } = req.body;
     
     // update wallet settings
-    await run('UPDATE wallets SET ressarco=?, taxa=? WHERE wallet=?', [ressarco || 0, taxa || 0, wallet]);
+    await run('UPDATE wallets SET bonificacao=?, taxa=? WHERE wallet=?', [bonificacao || 0, taxa || 0, wallet]);
     
     // clear old allocations for this wallet
     await run('DELETE FROM allocations WHERE wallet=?', [wallet]);
     
-    // calculate total bonus to distribute = ressarco * taxa%
-    const B = (Number(ressarco) || 0) * ((Number(taxa) || 0) / 100);
+    // calculate total bonus to distribute = bonificacao * taxa%
+    const B = (Number(bonificacao) || 0) * ((Number(taxa) || 0) / 100);
     
     // STEP 1: collect all operator data and calculate weights
     const operatorDataMap = {};
@@ -106,15 +106,17 @@ router.post('/:wallet', async (req, res) => {
       // final receivedValue = baseValue (bonus) + riskValue
       const newReceivedValue = baseValue + riskValue;
       
+      console.log(`[WALLETS] Op ${operatorId}: percentual=${opData.percentualAtingido}%, weight=${opData.weight}, totalWeight=${totalWeight}, B=${B}, baseValue=${baseValue}, riskValue=${riskValue}, total=${newReceivedValue}`);
+      
       await run('UPDATE entries SET receivedValue=? WHERE id=?', [newReceivedValue, opData.entryId]);
     }
     
-    const w = await get('SELECT wallet, ressarco, taxa FROM wallets WHERE wallet=?', [wallet]);
+    const w = await get('SELECT wallet, bonificacao, taxa FROM wallets WHERE wallet=?', [wallet]);
     const allocs = await all('SELECT operatorId, percent FROM allocations WHERE wallet=?', [wallet]);
     const allocsOut = {};
     allocs.forEach(a => { allocsOut[a.operatorId] = a.percent; });
     
-    res.json({ ok: true, wallet: w.wallet, ressarco: w.ressarco, taxa: w.taxa, allocations: allocsOut, bonusTotal: B });
+    res.json({ ok: true, wallet: w.wallet, bonificacao: w.bonificacao, taxa: w.taxa, allocations: allocsOut, bonusTotal: B });
   } catch(err) {
     console.error(err);
     res.status(500).json({ error: err.message });

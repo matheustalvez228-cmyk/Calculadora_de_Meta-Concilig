@@ -24,7 +24,7 @@ function all(sql, params=[]) {
     console.log('Risks:', JSON.stringify(risks, null, 2));
     
     if(user?.wallet) {
-      const wallet = await get('SELECT wallet, ressarco, taxa FROM wallets WHERE wallet=?', [user.wallet]);
+      const wallet = await get('SELECT wallet, bonificacao, taxa FROM wallets WHERE wallet=?', [user.wallet]);
       console.log('Wallet:', JSON.stringify(wallet, null, 2));
       
       const allocs = await all('SELECT operatorId, percent FROM allocations WHERE wallet=?', [user.wallet]);

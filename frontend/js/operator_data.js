@@ -50,7 +50,7 @@
     if(wallet) {
       const w = await apiFetch('/api/wallets/' + wallet).catch(()=>null);
       if(w) {
-        const totalGanho = (Number(w.ressarco || 0) * (Number(w.taxa || 0) / 100));
+        const totalGanho = (Number(w.bonificacao || 0) * (Number(w.taxa || 0) / 100));
         const detail = document.createElement('div');
         detail.className = 'muted';
         detail.innerHTML = `<p><strong>Total ganho pela carteira (R$):</strong> ${totalGanho.toFixed(2)}</p>`;

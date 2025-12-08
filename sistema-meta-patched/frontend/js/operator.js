@@ -1,4 +1,11 @@
 const apiBase = '';
+
+// Formata número para moeda brasileira: 3000000 -> 3.000.000,00
+function formatCurrency(value) {
+    const num = Number(value) || 0;
+    return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 (async function initOp(){
   // check token
   const token = localStorage.getItem('token');

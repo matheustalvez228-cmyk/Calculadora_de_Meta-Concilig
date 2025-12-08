@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS wallets (
   wallet TEXT PRIMARY KEY,
-  ressarco REAL DEFAULT 0,
+  bonificacao REAL DEFAULT 0,
   taxa REAL DEFAULT 0
 );
 
@@ -46,8 +46,8 @@ INSERT OR IGNORE INTO users(id,password,wallet,name,isMaster) VALUES('00004','$2
 INSERT OR IGNORE INTO users(id,password,wallet,name,isMaster) VALUES('00005','$2b$10$KIXQJmZKqFf3m9qGJh6G8uJHn8pD1jFZpG6Jk8v1yHjX3q9p1Qe6W','BV_WO','BV WO',1);
 
 -- ensure wallets rows exist
-INSERT OR IGNORE INTO wallets(wallet,ressarco,taxa) VALUES('BV_BOM',0,0);
-INSERT OR IGNORE INTO wallets(wallet,ressarco,taxa) VALUES('BV_ADM',0,0);
-INSERT OR IGNORE INTO wallets(wallet,ressarco,taxa) VALUES('BV_ADM_RENEG',0,0);
-INSERT OR IGNORE INTO wallets(wallet,ressarco,taxa) VALUES('BV_CONT',0,0);
-INSERT OR IGNORE INTO wallets(wallet,ressarco,taxa) VALUES('BV_WO',0,0);
+INSERT OR IGNORE INTO wallets(wallet,bonificacao,taxa) VALUES('BV_BOM',0,0);
+INSERT OR IGNORE INTO wallets(wallet,bonificacao,taxa) VALUES('BV_ADM',0,0);
+INSERT OR IGNORE INTO wallets(wallet,bonificacao,taxa) VALUES('BV_ADM_RENEG',0,0);
+INSERT OR IGNORE INTO wallets(wallet,bonificacao,taxa) VALUES('BV_CONT',0,0);
+INSERT OR IGNORE INTO wallets(wallet,bonificacao,taxa) VALUES('BV_WO',0,0);
